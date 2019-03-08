@@ -1,0 +1,116 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "bootstrap/bootstrap";
+@import "spinner";
+@import "utils";
+@import "rtl";
+@import "responsive";
+@import "notify";
+@import "picker";
+@media print {
+    .breadcrumb {
+        display: none !important;
+    }
+}
+// @import "~ng-pick-datetime/assets/style/picker.min.css";
+
+// custom global styles
+.asteric_for_required_field:after {
+  content:"*";color:red;
+}
+.col-form-label-lg {
+  font-size: 16px;
+}
+.form-group {
+  margin-bottom: 1.5rem;
+}
+.pointer {
+  cursor: pointer;
+}
+$color1: #f4f4f4;
+$color2: #3197EE;
+
+.radio {
+  margin: 0.5rem;
+  input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    + .radio-label {
+      &:before {
+        content: '';
+        background: $color1;
+        border-radius: 100%;
+        border: 1px solid darken($color1, 25%);
+        display: inline-block;
+        width: 1.4em;
+        height: 1.4em;
+        position: relative;
+        top: -0.2em;
+        margin-right: 1em; 
+        vertical-align: top;
+        cursor: pointer;
+        text-align: center;
+        transition: all 250ms ease;
+      }
+    }
+    &:checked {
+      + .radio-label {
+        &:before {
+          background-color: $color2;
+          box-shadow: inset 0 0 0 4px $color1;
+        }
+      }
+    }
+    &:focus {
+      + .radio-label {
+        &:before {
+          outline: none;
+          border-color: $color2;
+        }
+      }
+    }
+    &:disabled {
+      + .radio-label {
+        &:before {
+          box-shadow: inset 0 0 0 4px $color1;
+          border-color: darken($color1, 25%);
+          background: darken($color1, 25%);
+        }
+      }
+    }
+    + .radio-label {
+      &:empty {
+        &:before {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+}
+.table_td_vertical_align {
+    
+  vertical-align: middle;
+  
+}
+
+.bg-green, .callout.callout-success, .alert-success, .label-success {
+  background-color: #00a65a !important;
+}
+.bg-red, .callout.callout-danger, .alert-danger, .alert-error, .label-danger {
+  background-color: #dd4b39 !important;
+}
+.bg-yellow, .callout.callout-warning, .alert-warning, .label-warning{
+  background-color: #f39c12 !important;
+}
+.label {
+  display: inline;
+  padding: .2em .6em .3em;
+  font-size: 75%;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25em;
+}

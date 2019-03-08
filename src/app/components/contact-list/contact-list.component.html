@@ -1,0 +1,34 @@
+<!-- SearchBox -->
+<div class="row searchBox">
+	<div class="col-sm-10 form-group has-feedback">
+		<input id="searchText" type="text" class="form-control" name="searchText" placeholder="&#xF002; Search">
+	</div>
+	<div class="col-sm-2 col-xs-2 heading-compose text-right">
+		<i class="far fa-address-card" aria-hidden="true" (click)="openContactList()"></i>
+	</div>
+</div>
+
+<!-- Search Box End -->
+<!-- sideBar -->
+<div class="row no-gutters user-container" style="background: #286ad5;max-height: 80.9vh;overflow-y: auto;">
+	<a class="user-block" *ngFor="let user of _chatListUsers;" (click)="sigOpenConversation.emit(user)"
+		[class.active]="isUserSelected(user.id)">
+		<div class="user-info">
+			<div class="avatar-icon">
+				<img *ngIf="user.profile_picture !==null" src="{{IMG_URL}}profile/{{user.profile_picture}}">
+				<img *ngIf="user.profile_picture ===null" src="assets/images/user-thumbnail.png">
+			</div>
+			<div class="user-content">
+				<p style="font-size: 15px;" class="username">{{user.username}}</p>
+				<p style="font-size: 10px;">{{user.message}}</p>
+			</div>
+		</div>
+		<div class="time-info">
+			<span class="time-meta pull-right">
+				10:11 AM
+				<!-- {{user.created_at | date:'shortTime'}} -->
+			</span>
+		</div>
+	</a>
+</div>
+<!-- Sidebar End -->

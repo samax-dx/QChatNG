@@ -1,0 +1,63 @@
+<div class="container app" [style.display]="_mode === 'default' ? 'block' : 'none'">
+    <div class="row app-one">
+        <div class="col-4 side">
+            <div class="side-one">
+                <app-contact-list (sigOpenConversation)="onOpenConversation($event)"> </app-contact-list>
+            </div>
+        </div>
+        <div class="col-8 conversation">
+            <ng-template #conversation_container_default></ng-template>
+            <!-- <app-ngt-provider (sigReady)="setDefaultConversationContainerRef($event)">
+                conversation-container-default
+            </app-ngt-provider> -->
+
+            <div class="welcome-message" *ngIf="_selectedUser=== null">
+                <div class="col-md-12 welcome-screen">
+                    <h1>Welcome, {{username}}</h1>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="intro-image"></div>
+                            <h3>Talk with the world</h3>
+                            <p>Call friends and famili on<br>
+                                QChat for free, the<br>
+                                world at low affordable rates</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="download-image"></div>
+                            <h3>Bring QChat</h3>
+                            <p>
+                                Take your conversations on the<br>
+                                go and keep everything in<br>
+                                sync.Android, Windows
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container app" [style.display]="_mode === 'call' ? 'block' : 'none'">
+    <div class="row app-one">
+        <div class="col-4 side" [style.display]="_callmode_sidebar === 'conversation' ? 'unset' : 'none'">
+            <h1>conversation</h1>
+            <div class="side-one">
+                <ng-template #conversation_container_callmode></ng-template>
+                <!-- <app-ngt-provider (sigReady)="setCallModeConversationContainerRef($event)">
+                    conversation-container-callmode
+                </app-ngt-provider> -->
+            </div>
+        </div>
+        <div class="col-4 side" [style.display]="_callmode_sidebar === 'contact' ? 'unset' : 'none'">
+            <h1>contact</h1>
+            <app-contact-list (sigOpenConversation)="onOpenConversation($event)"> </app-contact-list>
+        </div>
+        <div class="call-window" [ngClass]="_callmode_sidebar === 'none' ? 'col-12' : 'col-8'">
+            <h1>call window</h1>
+            <button (click)="_callmode_sidebar = 'contact'">contact</button>
+            <button (click)="_callmode_sidebar = 'conversation'">conversation</button>
+            <button (click)="_callmode_sidebar = 'none'">close</button>
+        </div>
+    </div>
+</div>
