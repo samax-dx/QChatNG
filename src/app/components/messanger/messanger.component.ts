@@ -67,7 +67,7 @@ export class MessangerComponent {
 			// component.updateUser(user);
 			component.setUser(user);
 			component.setChatTypeSwitcher(
-				(user: any) => { this.startCall(user); }
+				(user: any) => { this.startCall(); }
 			);
 
 			components[user.id] = component;
@@ -88,7 +88,7 @@ export class MessangerComponent {
 		// }, 100);
 	}
 
-	public startCall(user) {
+	public startCall() {
 		this._mode = "call";
 	}
 }

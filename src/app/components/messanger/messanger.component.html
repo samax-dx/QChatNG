@@ -54,10 +54,34 @@
             <app-contact-list (sigOpenConversation)="onOpenConversation($event)"> </app-contact-list>
         </div>
         <div class="call-window" [ngClass]="_callmode_sidebar === 'none' ? 'col-12' : 'col-8'">
-            <h1>call window</h1>
-            <button (click)="_callmode_sidebar = 'contact'">contact</button>
-            <button (click)="_callmode_sidebar = 'conversation'">conversation</button>
-            <button (click)="_callmode_sidebar = 'none'">close</button>
+            <div class="call-widget-menu">
+                <span><i class="fas fa-bars"></i></span>
+                <div class="actions">
+                    <span><i class="fas fa-address-book" (click)="_callmode_sidebar = 'contact'"></i></span>
+                    <span><i class="far fa-comment-alt" (click)="_callmode_sidebar = 'conversation'"></i></span>
+                </div>
+            </div>
+            <div class="call-widget-header">
+                <div class="call-info">
+                    <h2 *ngIf="_selectedUser">{{_selectedUser.username}}</h2>
+                </div>
+                <div *ngIf="_selectedUser" class="call-options">
+                    <a class="btn btn-secondary">Add Member</a>
+                    <a class="btn btn-secondary">{{_selectedUser.username}}</a>
+                </div>
+            </div>
+            <div class="call-widget-body">
+                <div class="user-img">
+
+                </div>
+            </div>
+            <div class="call-widget-footer">
+                <div class="call-actions">
+                    <a class="btn btn-secondary">mute</a>
+                    <a class="btn btn-secondary">video</a>
+                    <a class="btn btn-danger">hang up</a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
