@@ -1,0 +1,34 @@
+<div class="call-widget">
+    <div class="call-widget-header">
+        <div class="call-info">
+            <h2>{{user.username}}</h2>
+        </div>
+        <div class="call-options">
+            <!-- conference-bar -->
+            <span><i class="fas fa-user-plus"></i></span>
+            <!-- <a class="btn btn-secondary">{{user.username}}</a> -->
+            <img src="assets/images/user-thumbnail.png" alt="">
+        </div>
+    </div>
+    <div *ngIf="calltype==='outbound' && incall === false" class="call-widget-body">
+        <audio class="d-none" *ngIf="ringing" src="assets/media/ringing_phone.mp3" autoplay loop></audio>
+        <div class="user-img">
+            <img src="assets/images/user-thumbnail.png" alt="">
+            <div class="connect-ripple"></div>
+        </div>
+    </div>
+    <div class="call-widget-body user-media-container" [class.d-none]="!incall">
+        <video #local_video class="local" autoplay></video>
+        <video #remote_video class="remote" autoplay></video>
+    </div>
+    <div class="call-widget-footer">
+        <div class="call-actions">
+            <!-- call-controls -->
+            <span><i class="fas fa-microphone"></i></span>
+            <span class="active"><i class="fas fa-video-slash"></i></span>
+            <!-- <span><i class="fas fa-video"></i></span> -->
+            <span><i class="fas fa-desktop"></i></span>
+            <span (click)='endCall()'><i class="fas fa-phone"></i></span>
+        </div>
+    </div>
+</div>

@@ -1,87 +1,60 @@
-<div class="container app" [style.display]="_mode === 'default' ? 'block' : 'none'">
+<div class="container app">
     <div class="row app-one">
-        <div class="col-4 side">
-            <div class="side-one">
-                <app-contact-list (sigOpenConversation)="onOpenConversation($event)"> </app-contact-list>
-            </div>
-        </div>
-        <div class="col-8 conversation">
-            <ng-template #conversation_container_default></ng-template>
-            <!-- <app-ngt-provider (sigReady)="setDefaultConversationContainerRef($event)">
-                conversation-container-default
-            </app-ngt-provider> -->
 
-            <div class="welcome-message" *ngIf="_selectedUser=== null">
-                <div class="col-md-12 welcome-screen">
-                    <h1>Welcome, {{username}}</h1>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="intro-image"></div>
-                            <h3>Talk with the world</h3>
-                            <p>Call friends and famili on<br>
-                                QChat for free, the<br>
-                                world at low affordable rates</p>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="download-image"></div>
-                            <h3>Bring QChat</h3>
-                            <p>
-                                Take your conversations on the<br>
-                                go and keep everything in<br>
-                                sync.Android, Windows
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+        <div class="side col-4" [class.d-none]="sidebar === 'none'">
 
-<div class="container app" [style.display]="_mode === 'call' ? 'block' : 'none'">
-    <div class="row app-one">
-        <div class="col-4 side" [style.display]="_callmode_sidebar === 'conversation' ? 'unset' : 'none'">
-            <h1>conversation</h1>
-            <div class="side-one">
-                <ng-template #conversation_container_callmode></ng-template>
-                <!-- <app-ngt-provider (sigReady)="setCallModeConversationContainerRef($event)">
-                    conversation-container-callmode
-                </app-ngt-provider> -->
+            <div class="side-one" [style.display]="sidebar === 'contacts' ? 'unset' : 'none'">
+                <app-contact-list (sigStartMessenger)="openMessenger($event);"></app-contact-list>
             </div>
-        </div>
-        <div class="col-4 side" [style.display]="_callmode_sidebar === 'contact' ? 'unset' : 'none'">
-            <h1>contact</h1>
-            <app-contact-list (sigOpenConversation)="onOpenConversation($event)"> </app-contact-list>
-        </div>
-        <div class="call-window" [ngClass]="_callmode_sidebar === 'none' ? 'col-12' : 'col-8'">
-            <div class="call-widget-menu">
-                <span><i class="fas fa-bars"></i></span>
-                <div class="actions">
-                    <span><i class="fas fa-address-book" (click)="_callmode_sidebar = 'contact'"></i></span>
-                    <span><i class="far fa-comment-alt" (click)="_callmode_sidebar = 'conversation'"></i></span>
-                </div>
-            </div>
-            <div class="call-widget-header">
-                <div class="call-info">
-                    <h2 *ngIf="_selectedUser">{{_selectedUser.username}}</h2>
-                </div>
-                <div *ngIf="_selectedUser" class="call-options">
-                    <a class="btn btn-secondary">Add Member</a>
-                    <a class="btn btn-secondary">{{_selectedUser.username}}</a>
-                </div>
-            </div>
-            <div class="call-widget-body">
-                <div class="user-img">
 
+        </div>
+
+        <div class="p-0" [ngClass]="sidebar === 'none' ? 'col-12' : 'col-8'" [class.d-none]="!activeuser">
+            <ng-template #messenger></ng-template>
+        </div>
+
+        <div class="welcome-screen p-0 col-8" [class.d-none]="activeuser">
+            <h1>Welcome, {{username}}</h1>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="intro-image"></div>
+                    <h3>Talk with the world</h3>
+                    <p>Call friends and famili on<br>
+                        QChat for free, the<br>
+                        world at low affordable rates</p>
                 </div>
-            </div>
-            <div class="call-widget-footer">
-                <div class="call-actions">
-                    <a class="btn btn-secondary">mute</a>
-                    <a class="btn btn-secondary">video</a>
-                    <a class="btn btn-danger">hang up</a>
+                <div class="col-sm-6">
+                    <div class="download-image"></div>
+                    <h3>Bring QChat</h3>
+                    <p>
+                        Take your conversations on the<br>
+                        go and keep everything in<br>
+                        sync.Android, Windows
+                    </p>
                 </div>
             </div>
         </div>
+
+        <div *ngIf="shouldring" class="call-dialog-drag">
+            <audio class="d-none" src="assets/media/phone_ringtone.mp3" autoplay loop></audio>
+            <div class="call-dialog-handle">
+                <div class="user-thumbnail">
+                    <img src="assets/images/user-thumbnail.png" alt="">
+                </div>
+                <div class="user-info">
+                    <p>connecting...</p>
+                    <h4>{{callinguserid}}</h4>
+                </div>
+                <div class="calling-actions">
+                    <span><i class="fas fa-microphone"></i></span>
+                    <span><i class="fas fa-grip-vertical"></i></span>
+                    <span><i class="fas fa-volume-down"></i></span>
+                </div>
+                <button type="button" class="btn btn-primary accept-call" (click)="ondialogresult('ok')">Accept</button>
+                <button type="button" class="btn btn-danger reject-call"
+                    (click)="ondialogresult('cancel')">Cancel</button>
+            </div>
+        </div>
+
     </div>
 </div>

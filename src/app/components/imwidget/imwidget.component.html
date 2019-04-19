@@ -1,0 +1,69 @@
+<div class="row heading" [style.display]="cancall ? '' : 'none'">
+    <div class="col-9">
+        <div class="heading-avatar">
+            <div class="heading-avatar-icon">
+                <img *ngIf="user.profile_picture" src="{{IMG_URL}}profile/{{user.profile_picture}}">
+                <img *ngIf="user.profile_picture === null" src="assets/images/user-thumbnail.png">
+            </div>
+        </div>
+
+        <div class="heading-name">
+            <a class="heading-name-meta">{{user.username}}</a>
+            <div class="group-users" *ngIf="selectedGroupUsers !=='' && user.isgroup">
+                {{selectedGroupUsers}}
+            </div>
+            <span class="heading-online">Online</span>
+        </div>
+    </div>
+
+    <div class="col-3 text-right call-actions">
+        <a href="javascript:void(0)" class="audio-call" (click)="makeCall('audio')">
+            <i class="fas fa-phone"></i>
+        </a>
+        <a href="javascript:void(0)" class="video-call" (click)="makeCall('video')">
+            <i class="fas fa-video"></i>
+        </a>
+    </div>
+</div>
+
+<div class="message-box">
+    <div class="row message-story" [style.height]="cancall ? '76vh' : '86vh'">
+        <div class="col-md-12">
+            <div class="message-body" *ngFor="let message of messages">
+                <div class="row"
+                    [ngClass]="user.id == message.sender ? 'justify-content-start' : 'justify-content-end'">
+                    <div class="col-8" [ngClass]="user.id == message.sender ? 'text-left' : 'text-right'">
+                        <div class="message-view">
+                            <div [ngClass]="user.id == message.sender ? 'remote' : 'local'">
+                                <span>{{ message.message }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form [formGroup]="messageForm" (ngSubmit)='sendMessage(messageForm.value, messageForm.valid)'
+        (keyup.enter)='sendMessage(messageForm.value, messageForm.valid)'>
+        <div class="composer-panel">
+            <div class="btn">
+                <i class="far fa-smile"></i>
+            </div>
+            <div class="">
+                <textarea #message class="form-control message-editor" rows="1" id="comment"
+                    placeholder="Type a message here" formControlName="message"
+                    (keyup)="sendMessage($event)"></textarea>
+            </div>
+
+            <div class="btn">
+                <input style="display: none;" type="file" name="fileUpload" id="fileUpload" multiple>
+                <label for="fileUpload"><i class="fa fa-paperclip download-icon"></i></label>
+            </div>
+            <div class="btn">
+                <button type="submit">
+                    <i class="fas fa-location-arrow"></i>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

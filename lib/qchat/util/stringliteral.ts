@@ -1,0 +1,1 @@
+export const $L = <V extends keyof any>(v: V) => v;

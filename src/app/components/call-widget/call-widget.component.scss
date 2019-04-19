@@ -1,0 +1,135 @@
+.call-widget {
+	display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.call-widget-header {
+	padding-top: 10px;
+}
+.call-widget-header .call-info {
+    float: left;
+    margin-left: 60px;
+    color: #fff;
+}
+.call-widget-header .call-options {
+	float: right;
+}
+.call-widget-body {
+	flex: 1;
+	display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.call-widget-body .user-img {
+    position: relative;
+	height: 150px;
+    background: #fff;
+    width: 150px;
+    border-radius: 50%;
+}
+.call-widget-body .user-img img {
+    border-radius: 50%;
+}
+
+.user-media-container {
+    position: relative;
+}
+.user-media-container video.local {
+    position: absolute;
+    right: 0;
+    width: 10%;
+    height: 10%;
+    z-index: 9999;
+}
+.user-media-container video.remote {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.call-widget-footer {
+	text-align: center;
+	padding-bottom: 10px;
+}
+.call-actions {
+	display: inline-block;
+    background: #445d77;
+    padding: 0;
+	margin-bottom: 10px;
+	border-radius: 5px;
+}
+.call-actions span {
+	font-size: 18px;
+    padding: 3px 10px;
+	display: inline-block;
+	color: #fff;
+	cursor: pointer;
+}
+.call-options span {
+	border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin: 3px 10px 0 0;
+    vertical-align: top;
+    background-color: rgb(68, 93, 119);
+    display: inline-block;
+    text-align: center;
+    line-height: 40px;
+	color: #fff;
+	cursor: pointer;
+}
+.call-options img {
+    border-radius: 50%;
+	width: 40px;
+    height: 40px;
+    margin: 3px 10px 0 0;
+	cursor: pointer;
+}
+.call-actions span.active {
+    background: #33485f;
+}
+.call-actions span i.fa-phone {
+	color: red;
+    transform: rotate(-135deg);
+}
+
+/*********** riple ***********/
+.connect-ripple,
+.connect-ripple::before,
+.connect-ripple::after {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    margin-left: 0;
+    margin-top: 0;
+    border-radius: 50%;
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.5);
+    animation: rippleOne 2s infinite;
+}
+
+.connect-ripple::before {
+    animation-delay: .9s;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+.connect-ripple::after {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    content: "";
+    animation-delay: .6s;
+}
+
+@keyframes rippleOne {
+    70% {
+        box-shadow: 0 0 0 30px rgba(244, 68, 56, .0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(244, 68, 56, .0);
+    }
+}
+/*********** riple ***********/

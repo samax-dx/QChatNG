@@ -1,0 +1,132 @@
+.searchBox {
+    margin: 0;
+    height: 60px;
+    padding: 10px;
+    background-color: #32465a;
+    border-bottom: 1px solid #32465a;
+}
+
+.searchBox .form-control {
+    margin: 0 !important;
+    background-color: transparent;
+    // border-top: 1px solid #0f59d2;
+    // border-bottom: 1px solid #0f59d2;
+    // border: 1px solid #0f59d2;
+    border-radius: 5px;
+}
+
+.searchBox input:focus {
+    outline: none;
+    border: none;
+    box-shadow: none;
+}
+
+.heading-compose {
+    padding: 0;
+}
+
+.heading-compose i {
+    text-align: center;
+    padding: 5px;
+    color: #ffffff;
+    cursor: pointer;
+}
+.user-container>div:first-child {
+    margin-top: 5px;
+}
+.user-container {
+    max-height: 80.9vh;
+    overflow-y: auto;
+}
+.user-container::-webkit-scrollbar {
+    width: 0.5em;
+}
+
+.user-container::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(205, 205, 205, 1);
+    -webkit-box-shadow: inset 0 0 6px rgba(205, 205, 205, 1);
+}
+
+.user-container::-webkit-scrollbar-thumb {
+    background-color: #dadada;
+    outline: 1px solid #dadada;
+    height: 20px;
+}
+
+.user-block {
+    width: 100%;
+    overflow: hidden;
+    border-top: 1px solid #32465a;
+    border-bottom: 1px solid #32465a;
+    padding: 5px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    transition: all 0.4s;
+    border-right: 5px solid transparent;
+}
+
+.user-block:hover,
+.user-block.active {
+    background: #32465a;
+    border-right: 5px solid #435f7a;
+}
+
+.user-block.active {
+    border-bottom: 1px solid #32465a;
+}
+
+.user-block.active .username {
+    font-weight: 600;
+}
+
+.user-block .user-info {
+    line-height: 0;
+    text-transform: capitalize;
+    color: #ffffff;
+    float: left;
+}
+
+.user-block .user-info p {
+    font-size: 12px;
+}
+
+.user-block .time-info {
+    float: right;
+}
+
+.user-block .user-info .user-content {
+    margin-left: 20px;
+    margin-top: 15px;
+    text-overflow: ellipsis;
+    width: 160px;
+    float: right;
+}
+
+.user-block .time-info {
+    float: right;
+    color: #fff;
+}
+
+.user-block .avatar-icon {
+    height: 48px;
+    width: 48px;
+    float: left;
+}
+
+.user-block .avatar-icon img {
+    border-radius: 3px;
+    height: 48px;
+    width: 48px;
+}
+
+@media screen and (max-width: 700px) {
+    .user-block .avatar-icon {
+        display: inline-block;
+        height: 48px;
+        width: 48px;
+    }
+    .user-block .avatar-icon img {
+        height: 55px;
+        width: 55px;
+    }
+}

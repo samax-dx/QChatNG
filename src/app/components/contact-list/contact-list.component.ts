@@ -1,47 +1,48 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, ChangeDetectorRef, OnInit } from '@angular/core';
+import { userkit } from 'lib/qchat/userkit';
+import { UserKit } from 'lib/qchat/userkit/UserKit';
 
 @Component({
 	selector: 'app-contact-list',
 	templateUrl: './contact-list.component.html',
-	styleUrls: ['./contact-list.component.css']
+	styleUrls: ['./contact-list.component.scss']
 })
+
 export class ContactListComponent implements OnInit {
-	@Output() private sigOpenConversation = new EventEmitter<any>();
+	@Output()
+	sigStartMessenger = new EventEmitter<any>();
 
-	private _chatListUsers = [];
-	private _selectedUserId = null;
+	users: { [key: string]: any }[] = [];
+	selecteduserid = null;
 
-	constructor() { }
+	private _usermap: { [key: string]: number } = {};
 
-	ngOnInit() {
-		this._chatListUsers = [
-			{
-				id: "samax.w1",
-				username: "samax.w1",
-				profile_picture: null,
-				message: '>|<'
-			},
-			{
-				id: "samax.w2",
-				username: "samax.w2",
-				profile_picture: null,
-				message: '>|<'
-			},
-			{
-				id: "samax.w3",
-				username: "samax.w3",
-				profile_picture: null,
-				message: '>|<'
-			},
-			{
-				id: "samax.w4",
-				username: "samax.w4",
-				profile_picture: null,
-				message: '>|<'
-			},
-		];
+	constructor(private _cdr: ChangeDetectorRef) {
+		UserKit.onuserin = user_id => { this.addUser(user_id); };
+		UserKit.onuserout = user_id => { this.removeUser(user_id); };
+		userkit.init();
 	}
-	isUserSelected(userId: number): boolean {
-		return this._selectedUserId === userId;
+
+	ngOnInit(): void {
+		userkit.getUsers().forEach(user_id => { this.addUser(user_id); });
+	}
+
+	private addUser(user_id: string): void {
+		this._usermap[user_id] = this.users.length;
+		this.users.push({
+			id: user_id,
+			username: "samax." + user_id,
+			profile_picture: null,
+			message: '>|<'
+		});
+		this._cdr.detectChanges();
+	}
+
+	private removeUser(user_id: string): void {
+		var i = this._usermap[user_id];
+		delete this._usermap[user_id];
+
+		this.users.splice(i, 1);
+		this._cdr.detectChanges();
 	}
 }

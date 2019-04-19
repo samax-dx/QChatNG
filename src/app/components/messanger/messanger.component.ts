@@ -1,5 +1,20 @@
-import { Component, ComponentFactoryResolver, ComponentFactory, ViewContainerRef, ChangeDetectorRef, ViewChild } from '@angular/core';
-import { ConversationComponent } from '../conversation/conversation.component';
+import {
+	Component,
+	ComponentFactoryResolver,
+	ComponentFactory,
+	ViewContainerRef,
+	ViewChild,
+} from '@angular/core';
+
+import { MessengerComponent } from '../messenger/messenger.component';
+import { imkit } from 'lib/qchat/imkit';
+import { IMKit } from 'lib/qchat/imkit/IMKit';
+import { CallKit } from 'lib/qchat/callkit/CallKit';
+import { callkit } from 'lib/qchat/callkit';
+
+import * as $ from 'jquery';
+import 'jquery-ui';
+import 'jquery-ui/ui/widgets/draggable';
 
 
 @Component({
@@ -8,87 +23,94 @@ import { ConversationComponent } from '../conversation/conversation.component';
 	styleUrls: ['./messanger.component.scss']
 })
 export class MessangerComponent {
-	@ViewChild("conversation_container_default", { read: ViewContainerRef }) private _defaultConversationContainer;
-	@ViewChild("conversation_container_callmode", { read: ViewContainerRef }) private _callmodeConversationContainer;
-	private _conversationcf: ComponentFactory<ConversationComponent>;
+	@ViewChild("messenger", { read: ViewContainerRef })
+	messengerVCR: ViewContainerRef;
+	private _messengerCF: ComponentFactory<MessengerComponent>;
 
-	//private _defaultConversationContainer: ViewContainerRef | null = null;
-	//private _callmodeConversationContainer: ViewContainerRef | null = null;
+	sidebar: "none" | "contacts" | "groups" = "contacts";
 
-	private _components: { [key: string]: ConversationComponent } = {};
-	private _components_callmode: { [key: string]: ConversationComponent } = {};
+	shouldring = false;
+	callinguserid: string | null = null;
+	ondialogresult: ((result: "ok" | "cancel") => void) | null = null;
 
-	private _mode: 'default' | 'call' = 'default';
-	private _callmode_sidebar: 'none' | 'contact' | 'conversation' = 'none';
+	activeuser: any = null;
 
-	private _selectedUser = null;
+	private _messengers: { [key: string]: MessengerComponent } = {};
 
-	constructor(
-		private _cdr: ChangeDetectorRef, cfr: ComponentFactoryResolver
-	) {
-		this._conversationcf = cfr.resolveComponentFactory(
-			ConversationComponent
-		);
+	constructor(cfr: ComponentFactoryResolver) {
+		this._messengerCF = cfr.resolveComponentFactory(MessengerComponent);
+
+		IMKit.onmessage = (user_id, message) => {
+			var messenger = this._messengers[user_id];
+			if (messenger) messenger.onmessage(message);
+		};
+		imkit.init();
+
+		CallKit.oncall = (user_id, videorequested, accept, reject) => {
+			this.ondialogresult = result => {
+				if (result === "ok") accept();
+				else reject();
+			};
+
+			this.openRinger(user_id);
+
+			return status => {
+				this.closeRinger();
+				if (!status) return;
+				var messenger = this._messengers[user_id];
+				messenger.oncall(videorequested);
+			};
+		};
+		callkit.init();
 	}
 
-	//setDefaultConversationContainerRef(ref: ViewContainerRef): void {
-	//	this._defaultConversationContainer = ref;
-	//}
-	//setCallModeConversationContainerRef(ref: ViewContainerRef): void {
-	//	this._callmodeConversationContainer = ref;
-	//}
+	openRinger(user_id: string) {
+		this.shouldring = true;
+		this.callinguserid = user_id;
 
-	public onOpenConversation(user: any) {
-		this._selectedUser = user;
-
-		if (this._mode === "call")
-			Object.assign(this, { _callmode_sidebar: "conversation" });
-
-		var setupConversationWidget = (
-			components: { [key: string]: ConversationComponent },
-			getViewContainerRef: () => ViewContainerRef
-		) => {
-			var containerref: ViewContainerRef = getViewContainerRef();
-
-			Object.getOwnPropertyNames(components).forEach(id => {
-				Object.assign(components[id], { conversationDisplay: "none" });
+		$(document).ready(function () {
+			var dialog = $('.call-dialog-drag');
+			dialog.draggable({
+				handle: '.call-dialog-handle',
+				containment: "parent"
 			});
 
-			var component = components[user.id];
-			if (component) {
-				Object.assign(component, { conversationDisplay: "unset" });
-				return;
-			}
-
-			component = containerref.createComponent(
-				this._conversationcf
-			).instance;
-
-			// component.updateUser(user);
-			component.setUser(user);
-			component.setChatTypeSwitcher(
-				(user: any) => { this.startCall(); }
-			);
-
-			components[user.id] = component;
-		};
-
-		// setTimeout(() => {
-			if (this._mode === "default") {
-				setupConversationWidget(
-					this._components,
-					() => { return this._defaultConversationContainer; }
-				);
-			} else if (this._mode === "call") {
-				setupConversationWidget(
-					this._components_callmode,
-					() => { return this._callmodeConversationContainer; }
-				);
-			} else return console.warn("invalid chat mode");
-		// }, 100);
+			var p = dialog.parent();
+			dialog.css("top", (p.height() / 2 - dialog.height() / 2) + "px");
+			dialog.css("left", (p.width() / 2 - dialog.width() / 2) + "px");
+			dialog.css("visibility", "visible");
+			dialog.css('cursor', 'move');
+		});
 	}
 
-	public startCall() {
-		this._mode = "call";
+	closeRinger() {
+		this.shouldring = false;
+		this.callinguserid = null;
+		this.ondialogresult = null;
+	}
+
+	openMessenger(user: any): void {
+		this.activeuser = user;
+		Object.keys(this._messengers).forEach(id => {
+			this._messengers[id].hide();
+		});
+
+		var messenger = this._messengers[user.id];
+		if (messenger) return messenger.show();
+
+		messenger = this._messengers[user.id] = (
+			this.messengerVCR.createComponent(this._messengerCF).instance
+		);
+
+		messenger.setUser(user);
+		messenger.setSidebarViewer(sb_name => {
+			if (sb_name) return this.sidebar = sb_name;
+
+			if (!sb_name)
+				if (this.sidebar === "none")
+					return this.sidebar = "contacts";
+		});
+
+		messenger.init();
 	}
 }

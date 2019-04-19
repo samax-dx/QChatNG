@@ -1,15 +1,48 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>QchatClient</title>
-  <base href="/">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+<head>
+    <meta charset="utf-8">
+    <title>QchatClient</title>
+    <base href="/">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
 </head>
+
 <body>
-  <app-root></app-root>
+    <script>
+        // Opera 8.0+
+        var isOpera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
+
+        // Firefox 1.0+
+        var isFirefox = typeof InstallTrigger !== 'undefined';
+
+        // Safari 3.0+ "[object HTMLElementConstructor]" 
+        var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || safari.pushNotification);
+
+        // Internet Explorer 6-11
+        var isIE = /*@cc_on!@*/false || !!document.documentMode;
+
+        // Edge 20+
+        var isEdge = !isIE && !!window.StyleMedia;
+
+        // Chrome 1+
+        //var isChrome = !!window.chrome && !!window.chrome.webstore;
+        // If isChrome is undefined, then use:
+        var isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
+        // Blink engine detection
+        var isBlink = (isChrome || isOpera) && !!window.CSS;
+
+
+        if (isIE || isEdge || isSafari) {
+            var scriptelm = document.createElement("script");
+            scriptelm.src = "//webrtchacks.github.io/adapter/adapter-latest.js";
+            document.body.prepend(scriptelm);
+        }
+    </script>
+    <app-root></app-root>
 </body>
+
 </html>

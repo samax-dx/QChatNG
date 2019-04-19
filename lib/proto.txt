@@ -1,0 +1,43 @@
+// call-offer
+QMessenger.get(
+    ruser, new_ok = true
+).then(messenger => {
+    return messenger.makeCall(); // waitanswer
+}).then(offersdp => {
+    signalx.send(signalx.dial(offersdp, ruser);
+}).catch(staus => {
+    console.log(status);
+});
+
+// on-call-in-offer
+QMessenger.get(
+    ruser, new_ok = true
+).then(messenger => {
+    return messenger.takeCall(offersdp); // promptuser
+}).then(answersdp => {
+    signalx.send(signalx.accept(answersdp, ruuser);
+}).catch(staus => {
+    console.log(status);
+});
+
+// on-call-accept
+QMessenger.get(
+    ruser, new_ok = false
+).then(messenger => {
+    return messenger.onCallAccepted(answersdp);
+}).then(() => {
+    console.log("connection complete");
+}).catch(staus => {
+    console.log(status);
+});
+
+// on-call-reject
+QMessenger.get(
+    ruser, new_ok = false
+).then(messenger => {
+    return messenger.onCallRejected(); // rollback
+}).then(answersdp => {
+    console.log("connection rollbacked");
+}).catch(staus => {
+    console.log(status);
+});

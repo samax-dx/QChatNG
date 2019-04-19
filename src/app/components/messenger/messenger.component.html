@@ -1,0 +1,38 @@
+<div class="row h-100" [style.display]="active ? 'flex' : 'none'">
+
+    <!-- 2nd section -->
+    <div class="imw-box" s0---------------------------------------------------e0
+        [class.d-none]="imwmode === 'none'" s1--------------------------------e1
+        [class.col-12]="imwmode === 'full'" s2--------------------------------e2
+        [class.col-4]="imwmode === 'lite'">
+
+        <ng-template #imwidget_container></ng-template>
+
+    </div>
+
+    <!-- 3rd section -->
+    <div class="callw-box" s0-------------------------------------------------e0
+        [class.d-none]="callwmode === 'none'" s1------------------------------e1
+        [class.col-12]="callwmode === 'full'" s2------------------------------e2
+        [class.col-8]="callwmode === 'lite'" s2-------------------------------e2
+        [class.order-first]="callwmode === 'lite'">
+
+        <div class="messenger-nav active" [class.active]="sidebar_on" [style.display]="callwmode === 'none' ? 'none' : 'flex'">
+            <span class="hover-point"><i class="fas fa-bars"></i></span>
+            <div class="actions">
+                <span><i class="fas fa-address-book" (click)="showInCallSidebar('contacts')"></i></span>
+                <span><i class="fas fa-address-book" (click)="showInCallSidebar('contacts')"></i></span>
+                <span><i class="fas fa-address-book" (click)="showInCallSidebar('contacts')"></i></span>
+                <span><i class="fas fa-address-book" (click)="showInCallSidebar('contacts')"></i></span>
+            </div>
+        </div>
+
+        <ng-template #callwidget_container></ng-template>
+
+        <div class="chat-boxe-toggler" [style.display]="callwmode === 'none' ? 'none' : 'block'">
+            <i class="far fa-comment-alt" (click)="toggleIMWidget()"></i>
+        </div>
+
+    </div>
+
+</div>
