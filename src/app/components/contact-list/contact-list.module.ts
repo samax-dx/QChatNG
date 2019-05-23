@@ -1,14 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ContactListComponent } from './contact-list.component';
+// import { ContactListComponent } from './contact-list.component';
 
 @NgModule({
 	imports: [
 		CommonModule
 	],
-	declarations: [ContactListComponent],
+	declarations: [
+		// ContactListComponent
+	],
 	exports: [
-		ContactListComponent
+		// ContactListComponent
 	]
 })
 export class ContactListModule { }

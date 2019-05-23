@@ -47,7 +47,7 @@ export class IMWidgetComponent {
 		})
 	}
 
-	sendMessage(messageData, isvalid) {
+	sendMessage(messageData, isvalid?) {
 		if (!isvalid) return;
 
 		var message = {

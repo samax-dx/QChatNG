@@ -9,8 +9,8 @@
 
         <div class="heading-name">
             <a class="heading-name-meta">{{user.username}}</a>
-            <div class="group-users" *ngIf="selectedGroupUsers !=='' && user.isgroup">
-                {{selectedGroupUsers}}
+            <div class="group-users" *ngIf="user && user.isgroup">
+                {{user.name}}
             </div>
             <span class="heading-online">Online</span>
         </div>
