@@ -18,7 +18,7 @@ export class AppComponent {
         if (!clientid || clientid.trim().length === 0) return;
         else UserKit.localuser = clientid = clientid.trim();
 
-        var serverurl = "ws://52.221.192.102:8083";//"ws://qmixin.com:8083/";
+        var serverurl = "wss://bu-connect.qmixin.com:8083";//"ws://qmixin.com:8083/";
         signalx.socket = new WebSocket(serverurl + "/" + clientid);
 
         signalx.init();
