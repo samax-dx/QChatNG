@@ -31,7 +31,7 @@ export class ContactListComponent implements OnInit {
 		this._usermap[user_id] = this.users.length;
 		this.users.push({
 			id: user_id,
-			username: "samax." + user_id,
+			username: user_id,
 			profile_picture: null,
 			message: '>|<'
 		});
